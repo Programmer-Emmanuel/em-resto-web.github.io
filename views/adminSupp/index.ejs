@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/adminAjout/style.css">
+    <link rel="shourtcut icon" type="text/css" href="/adminAjout/images/OIP.jpg">
+    <title>Resto, application de gestion de restaurant - <%= title %></title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f2f2f2;
+    overflow: hidden;
+}
+form {
+    width: 500px;
+    padding: 20px 40px 20px 20px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+h1{
+    color: red;
+    text-align: center;
+    font-size: 30px;
+}
+input[type="email"], input[type="password"], input[type="text"]{
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+input[type="submit"] {
+    width: 70%;
+    padding: 10px;
+    background-color: rgb(145, 0, 0);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 16%;
+    margin-top: 20px;
+}
+a {
+    margin-top: 20px;
+    color: red;
+    text-decoration: none;
+    text-decoration: underline;
+}
+
+p{
+    margin-top: -15px;
+    color: red;
+    display: none;
+}
+    </style>
+</head>
+
+<body >
+    <form action="/admin" method="post">
+        <h1>Suppression</h1>
+        <input type="text" name="nom" placeholder="Entrez le nom" id="nom" required>
+        <p id="mot_nom">Entrer un nom valide !</p>
+        <input type="text" name="prenom" placeholder="Entrez le prenom" id="prenom" required>
+        <p id="mot_prenom">Entrer un prenom valide !</p>
+        <input type="email" name="email" placeholder="Entrez l'email" id="email" required>
+        <p id="mot_email">Entrer un email valide !</p>
+        <input type="submit" value="Supprimer" id="boutton"><br><br><br> 
+
+    </form>
+
+    <script src="/adminAjout/script.js"></script>
+</body>
+</html>
+
+
+
+
+

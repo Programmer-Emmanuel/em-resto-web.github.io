@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="inscription/style.css">
+    <link rel="shourtcut icon" type="text/css" href="/inscription/images/OIP.jpg">
+    <title>Resto, application de gestion de restaurant - <%= title %></title>
+</head>
+
+<body >
+    <form action="/resto" method="post">
+        <h1>Inscription</h1>
+        <input type="text" name="nom" placeholder="Entrez votre nom" id="nom" required>
+        <p id="mot_nom">Entrer un nom valide !</p>
+        <input type="text" name="prenom" placeholder="Entrez votre prenom" id="prenom" required>
+        <p id="mot_prenom">Entrer un prenom valide !</p>
+        <input type="email" name="email" placeholder="Entrez votre email" id="email" required>
+        <p id="mot_email">Entrer un email valide !</p>
+        <input type="password" name="password" placeholder="Entrez votre mot de passe" id="password" required minlength="8">
+        <p id="mot_password">Entrer un mot de passe valide !</p><br>
+        <input type="submit" value="Inscription" id="boutton"><br><br><br>
+        <a href="/connexion">Se connecter ?</a><br> 
+
+    </form>
+
+    <script src="inscription/script.js"></script>
+</body>
+</html>

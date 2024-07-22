@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/admin/style.css">
+    <link rel="shourtcut icon" type="text/css" href="/admin/images/OIP.jpg">
+    <title>Resto, application de gestion de restaurant - <%= title %></title>
+    <style>
+        *{
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    overflow: hidden;
+}
+
+nav{
+    display: block;
+    justify-content: space-around;
+    background-color: brown;
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100%;
+    border-right: 2px solid black;
+}
+
+.logo{
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    font-style: italic;
+    padding: 20px;
+}
+
+.logo img{
+    height: 40px;
+    border-radius: 25px;
+    cursor: pointer;
+}
+
+.logo h1{
+    font-size: 30px;
+    color: white;
+    cursor: pointer;
+}
+
+.liens_dashboard{
+    padding: 30px;
+    background-color: brown;
+    margin-top: 20px;
+}
+
+.liens_dashboard a{
+    margin-top: 150px;
+    padding: 30px;
+    text-decoration: none;
+    color: white;
+    font-size: 20px;
+    background-color: brown;
+}
+
+.liens_dashboard a:hover{
+    border-left: 1px solid white;
+}
+
+h2{
+    text-align: right;
+    padding: 20% 10%;
+    font-size: 35px;
+}
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">
+            <img src="/admin/images/OIP.jpg" alt="logo">
+            <h1>EM-Resto App</h1>
+        </div><hr>
+
+        <div class="liens_dashboard">
+            <a href="/admin/commandes"> Voir commandes</a><br><br><br><br>
+            <a href="/"> Deconnexion</a>
+        </div>
+    </nav>
+
+
+    <h2>Bienvenue sur la page Administrateur.</h2>
+        
+        
+
+    
+
+
+    <script>
+        const menu_burger = document.getElementById('menu_burger');
+const close_menu = document.getElementById('close_menu');
+const responsive = document.getElementById("responsive")
+
+menu_burger.addEventListener("click", ()=>{
+    close_menu.style.display="block"
+    menu_burger.style.display="none"
+    responsive.style.display="block"
+    responsive.classList.add("navigue_add")
+    responsive.classList.remove("navigue_close")
+})
+
+close_menu.addEventListener("click", ()=>{
+    menu_burger.style.display="block"
+    close_menu.style.display="none"
+    responsive.classList.add("navigue_close")
+    responsive.classList.remove("navigue_add")
+})
+
+
+
+    </script>
+</body>
+</html>

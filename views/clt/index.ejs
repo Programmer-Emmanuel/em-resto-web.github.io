@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/clt/style.css">
+    <link rel="shourtcut icon" type="text/css" href="/clt/images/OIP.jpg">
+    <title>Resto, application de gestion de restaurant - <%= title %></title>
+</head>
+<body>
+    <nav>
+        <div class="logo">
+            <img src="/clt/images/OIP.jpg" alt="logo">
+            <h1>EM-Resto App</h1>
+            <img src="/clt/images/menu (1).png" alt="" id="menu_burger">
+            <img src="/clt/images/close (1).png" alt="" id="close_menu">
+        </div>
+        <div class="navbar">
+            <ul>
+                <li><a href="#">Acceuil</a></li>
+                <li><a href="#">A propos</a></li>
+                <li><a href="/resto/panier">Mes Commandes</a></li>
+                <li><a href="#">Contactez-nous</a></li>
+                <li><a href="/" class="connect">Deconnexion</a></li>
+            </ul>
+        </div>
+        <div class="navbar_responsive" id="responsive">
+            <ul>
+                <li><a href="#">Acceuil</a></li>
+                <li><a href="#">A propos</a></li>
+                <li><a href="/resto/panier">Mes Commandes</a></li>
+                <li><a href="#">Contactez-nous</a></li>
+                <li><a href="/" class="connect_responsive">Deconnexion</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header>
+        <div class="image_entete">
+            <img src="/clt/images/R.jpg" alt="">
+        </div>
+        <div class="texte_entete">
+            <h1>Bienvenue sur notre site <br>EM-Resto App</h1>
+            <p>De bons mets à la satisfaction de tous, venez vous faire plaisir !</p>
+            <button><a href="/connexion">Commander Maintenant</a></button>
+        </div>
+    </header>
+
+    <div class="specialite">
+        <div class="titre_specialites">
+            <h1>Nos Specialités</h1>
+            <p>Decouvrez nos différents menus disponibles dans notre restaurant.</p>
+        </div>
+        <div class="bouton_commander">
+            <button><a href="/resto/panier">Vos Commandes</a></button>
+        </div>
+    </div>
+
+
+
+    <% let nom_menu= "menu" %>
+    <% let prix_menu= "prix" %>
+    <% var username= typeof 
+      name !== 'undefined' ?
+      name: ''; 
+    %>
+    <% var userlastname= typeof
+      lastName !== 'undefined' ?
+      lastName: '';  
+    %>
+    <% var useremail= typeof
+    email !== 'undefined' ?
+    email: '';  
+  %>
+
+    <div class="card_specialites">
+
+        <div class="card">
+            <div class="card-img">
+              <img src="/clt/images/Food-Pizza-Basil-Tomato.webp" alt="">
+            </div>
+            <div class="card-info">
+              <p class="text-title"> <%= nom_menu="Pizza" %> </p>
+              <p class="text-body">Product description and details</p>
+            </div>
+            <div class="card-footer">
+            <span class="text-title"><%= prix_menu="5000F" %></span>
+            <div class="card-button">
+              <form action="/resto" method="get">
+                <input type="hidden" name="nom" value="<%= username %>" >
+                <input type="hidden" name="prenom" value="<%= userlastname %>" >
+                <input type="hidden" name="email" value="<%= useremail %>" >
+                <input type="hidden" name="menu" value="Pizza">
+                <input type="hidden" name="prix" value="5000F">
+                <input type="submit" value="Commander">
+            </form>
+
+            </div>
+          </div></div>
+
+
+          <div class="card">
+            <div class="card-img">
+              <img src="/clt/images/burgers_masthead_xtkxft.jfif" alt="">
+            </div>
+            <div class="card-info">
+              <p class="text-title"><%= nom_menu="Burger" %></p>
+              <p class="text-body">Product description and details</p>
+            </div>
+            <div class="card-footer">
+            <span class="text-title"><%= prix_menu="5000F" %></span>
+            <div class="card-button">
+              
+              <form action="/resto" method="get">
+                <input type="hidden" name="nom" value="<%= username %>" >
+                <input type="hidden" name="prenom" value="<%= userlastname %>" >
+                <input type="hidden" name="email" value="<%= useremail %>" >
+                <input type="hidden" name="menu" value="Burger">
+                <input type="hidden" name="prix" value="5000F">
+                <input type="submit" value="Commander">
+            </form>
+            </div>
+          </div></div>
+
+
+          <div class="card">
+            <div class="card-img">
+              <img src="/clt/images/R.jpg" alt="">
+            </div>
+            <div class="card-info">
+              <p class="text-title"><%= nom_menu="Takkos" %> </p>
+              <p class="text-body">Product description and details</p>
+            </div>
+            <div class="card-footer">
+            <span class="text-title"><%= prix_menu="2000F" %></span>
+            <div class="card-button">
+              
+              <form action="/resto" method="get">
+                <input type="hidden" name="nom" value="<%= username %>" >
+                <input type="hidden" name="prenom" value="<%= userlastname %>" >
+                <input type="hidden" name="email" value="<%= useremail %>" >
+                <input type="hidden" name="menu" value="Takkos">
+                <input type="hidden" name="prix" value="2000F">
+                <input type="submit" value="Commander">
+            </form>
+            </div>
+          </div></div>
+
+
+          <div class="card">
+            <div class="card-img">
+              <img src="/clt/images/tout-savoir-sur-lalloco-ce-delice-venu-de-cote-divoire.jpg" alt="">
+            </div>
+            <div class="card-info">
+              <p class="text-title"><%= nom_menu="Alloco" %> </p>
+              <p class="text-body">Product description and details</p>
+            </div>
+            <div class="card-footer">
+            <span class="text-title"><%= prix_menu="1000F" %></span>
+            <div class="card-button">
+              
+              <form action="/resto" method="get">
+                <input type="hidden" name="nom" value="<%= username %>" >
+                <input type="hidden" name="prenom" value="<%= userlastname %>" >
+                <input type="hidden" name="email" value="<%= useremail %>" >
+                <input type="hidden" name="menu" value="Alloco">
+                <input type="hidden" name="prix" value="1000F">
+                <input type="submit" value="Commander">
+            </form>
+            </div>
+          </div></div>
+
+
+          <div class="card">
+            <div class="card-img">
+              <img src="/clt/images/R.jfif" alt="">
+            </div>
+            <div class="card-info">
+              <p class="text-title"><%= nom_menu="Poulet" %> </p>
+              <p class="text-body">Product description and details</p>
+            </div>
+            <div class="card-footer">
+            <span class="text-title"><%= prix_menu="10.000F" %></span>
+            <div class="card-button">
+              
+              <form action="/resto" method="get">
+                <input type="hidden" name="nom" value="<%= username %>" >
+                <input type="hidden" name="prenom" value="<%= userlastname %>" >
+                <input type="hidden" name="email" value="<%= useremail %>" >
+                <input type="hidden" name="menu" value="Poulet">
+                <input type="hidden" name="prix" value="10.000F">
+                <input type="submit" value="Commander">
+            </form>
+            </div>
+          </div></div>
+
+    </div>
+
+    
+    
+    
+
+
+    <script src="/clt/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/panier/style.css">
+    <link rel="shourtcut icon" type="text/css" href="/clt/images/OIP.jpg">
+    <title>Resto, application de gestion de restaurant</title>
+</head>
+<body>
+    <nav>
+        <div class="logo">
+            <img src="/clt/images/OIP.jpg" alt="logo">
+            <h1>EM-Resto App</h1>
+            <img src="/clt/images/menu (1).png" alt="" id="menu_burger">
+            <img src="/clt/images/close (1).png" alt="" id="close_menu">
+        </div>
+        <div class="navbar">
+            <ul>
+                <li><a href="#">A propos</a></li>
+                <li><a href="#">Mes Commandes</a></li>
+                <li><a href="#">Contactez-nous</a></li>
+                <li><a href="/" class="connect">Deconnexion</a></li>
+            </ul>
+        </div>
+        <div class="navbar_responsive" id="responsive">
+            <ul>
+                <li><a href="#">A propos</a></li>
+                <li><a href="#">Mes Commandes</a></li>
+                <li><a href="#">Contactez-nous</a></li>
+                <li><a href="/" class="connect_responsive">Deconnexion</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <div class="titre_panier">
+        <h1>Votre Panier / Vos Commandes</h1>
+    </div>
+
+    <div class="card_commande" id="carte">
+
+        
+
+        <% if (commandes.length > 0) { %>
+        <% 
+            commandes.forEach(commande => { %>
+                
+                <div class="card" >
+                    <h2>Menu : <%= commande.menu %></h2><br><hr><br>
+                    <h2>Prix : <%= commande.prix %></h2><br>
+                    <div class="boutons">
+                    <form action="/client/commandes" method="get">
+                        <input type="hidden" name="nom" value="<%= commande.nom %>">
+                        <input type="hidden" name="prenom" value="<%= commande.prenom %>">
+                        <input type="hidden" name="menu" value="<%= commande.menu %>">
+                        <input type="hidden" name="email" value="<%= commande.email %>">
+                        <input type="hidden" name="prix" value="<%= commande.prix %>">
+                        <input type="submit" value="Valider" id="bouton">
+                    </form><br>
+                    <form action="/resto" method="get">
+                        <input type="hidden" name="menu" value="<%= commande.menu %>">
+                        <input type="submit" value="Supprimer">
+                    </form><br>
+                </div>
+                </div>
+
+                
+
+
+        <%    }) %>
+        <% } %>
+
+        <% if (commandes.length === 0) { %>
+            <h2 class="vide">Votre panier est vide.</h2>
+        <% } %>
+    </div>
+
+
+    <script src="/panier/script.js"></script>
+</body>
+</html>
