@@ -1,7 +1,7 @@
 const express = require("express")
 const router = require("./routers/router")
 const app = express()
-const port = 3000
+const port = 10000
 
 
 //INDIQUER LE MOTEUR DE TEMPLATE
@@ -28,5 +28,5 @@ app.use("/", router)
 
 
 app.listen(port, ()=>{
-    console.log(`http://localhost:3000`);
+    console.log(`http://localhost:${port}`);
 })
