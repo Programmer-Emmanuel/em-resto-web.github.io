@@ -1,7 +1,7 @@
 const express = require("express")
 const router = require("./routers/router")
 const app = express()
-const port = 10000
+const port = process.env.PORT || 3000;
 
 
 //INDIQUER LE MOTEUR DE TEMPLATE
