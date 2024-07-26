@@ -26,6 +26,11 @@ app.use(express.urlencoded({extended: true}))
 app.use("/", router)
 
 
+//POUR EVITER QUE L'APP CRASH
+
+app.use((req, res, next)=>{
+    res.status(404).send("Désolé la page que vous cherchez est introuvable !")
+})
 
 app.listen(port, ()=>{
     console.log(`http://localhost:${port}`);
