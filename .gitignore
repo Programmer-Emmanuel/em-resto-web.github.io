@@ -1,0 +1,5 @@
+# Ignorer le fichier contenant la clé API SendGrid
+sendgrid.js
+
+# Ignorer le fichier des variables d'environnement
+.env
