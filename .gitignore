@@ -3,3 +3,6 @@ sendgrid.js
 
 # Ignorer le fichier des variables d'environnement
 .env
+
+node_modules
+
