@@ -5,6 +5,8 @@ const Commande = require('../models/modelCommande')
 const CommandeAdmin = require('../models/modelCommandeAdmin')
 const path = require("path")
 const router = express.Router()
+const sgMail = require('../sendgrid');
+const { log } = require('console')
 
 
 
@@ -34,7 +36,7 @@ router.post("/resto/connexion", (req,res)=>{
         .then(user=>{
             if(user){
                 console.log("Utilisteur trouvé dans la table User!");
-                res.render("clt/index", {title: "client", name: user.nom, lastName: user.prenom})
+                res.render("clt/index", {title: "client", name: user.nom, lastName: user.prenom, email: user.email})
             }
             else{
                 console.log("Utilisateur non trouvé dans la table User!");
@@ -104,8 +106,7 @@ router.post("/resto", (req, res)=>{
     var inputPrenom = req.body.prenom;
     var inputEmail = req.body.email;
     const inputPassword = req.body.password
-    
-    console.log("l'email est : " + inputEmail);
+    var inputTelephone = req.body.telephone;
 
 
     //verifie en fonction du mot de passe si c'est un administrateur en fonction du mot de passe
@@ -133,13 +134,15 @@ router.post("/resto", (req, res)=>{
         const nameUser = inputNom
         const lastNameUser = inputPrenom
         const emailUser = inputEmail
-        res.render("clt/index", {title: "client", name: nameUser, lastName: lastNameUser, email: emailUser})
+        const telephoneUser = inputTelephone
+        res.render("clt/index", {title: "client", name: nameUser, lastName: lastNameUser, email: emailUser, tel: telephoneUser})
     
     const newUser = User.build({
         nom: inputNom,
         prenom: inputPrenom,
         email: inputEmail,
-        motDePasse: inputPassword
+        motDePasse: inputPassword,
+        telephone: inputTelephone
     })
     newUser.save()
         .then(()=>{
@@ -164,19 +167,21 @@ router.get("/resto", (req, res)=>{
     inputEmail = req.query.email
     inputMenu = req.query.menu
     inputPrix = req.query.prix
+    inputTelephone = req.query.telephone
 
 
     const nameUser = inputNom
     const lastNameUser = inputPrenom
     const emailUser = inputEmail
-    console.log("l'email est : " + emailUser); 
-    res.render("clt/index", {title: "client", name: nameUser, lastName: lastNameUser, email: emailUser})
+    const telephoneUser = inputTelephone
+    res.render("clt/index", {title: "client", name: nameUser, lastName: lastNameUser, email: emailUser,tel: telephoneUser})
 
 
     const newCommande = Commande.build({
         nom: inputNom,
         prenom: inputPrenom,
         email: inputEmail,
+        telephone: inputTelephone,
         menu: inputMenu,
         prix: inputPrix
     })
@@ -189,7 +194,7 @@ router.get("/resto", (req, res)=>{
             res.render("clt/index", {title: "client"})
         })
     
-    
+ 
 
 
     const menuCommande = req.query.menu
@@ -233,7 +238,7 @@ router.get("/resto/panier", async(req, res)=>{
 router.get("/admin/commandes", async(req, res)=>{
     try{
         const commandeAdmin = await CommandeAdmin.findAll()
-        res.render('commandes/index', {title: 'Panier', commandeAdmin: commandeAdmin})
+        res.render('commandes/index', {title: 'CommandeAdmin', commandeAdmin: commandeAdmin})
         console.log("Commandes récupérées avec succès!")
         
     }
@@ -252,6 +257,7 @@ router.get("/client/commandes", (req, res)=>{
     inputEmail = req.query.email
     inputMenu = req.query.menu
     inputPrix = req.query.prix
+    inputTelephone = req.query.telephone
 
 
 
@@ -260,6 +266,7 @@ const newCommande = CommandeAdmin.build({
         nom: inputNom,
         prenom: inputPrenom,
         email: inputEmail,
+        telephone: inputTelephone,
         menu: inputMenu,
         prix: inputPrix
     })
@@ -352,6 +359,71 @@ router.post("/admin", (req, res)=>{
 
 
 })
+
+
+
+//Envoi et reception d’email
+
+// Route pour traiter le formulaire de panier
+router.post('/resto/panier', async (req, res) => {
+    const { menu, prix, telephone, email } = req.body;
+
+    // Création du message à envoyer
+    const msg = {
+        to: email,  // L'adresse e-mail du destinataire (le client)
+        from: 'emresto.dev@gmail.com', 
+        subject: 'Confirmation de votre commande',
+        text: `Bonjour,
+
+        Merci pour votre commande !
+        Menu: ${menu}
+        Prix: ${prix}
+        Téléphone: ${telephone}
+
+        Nous vous contacterons bientôt pour plus de détails.
+
+        Cordialement,
+        Votre équipe`,
+        html: `<p>Bonjour,</p>
+               <p>Merci pour votre commande !</p>
+               <p><strong>Menu:</strong> ${menu}</p>
+               <p><strong>Prix:</strong> ${prix}</p>
+               <p><strong>Téléphone:</strong> ${telephone}</p>
+               <p>Nous vous contacterons bientôt pour plus de détails.</p>
+               <p>Cordialement,<br>Votre équipe</p>`
+    };
+
+    try {
+        // Envoi de l'e-mail
+        await sgMail.send(msg);
+        console.log('E-mail envoyé avec succès !');
+
+        const emailCommande = req.body.email
+        const telephone = req.body.telephone
+        
+        
+
+        const commandeSupp = CommandeAdmin.destroy({where: {email: emailCommande, telephone: telephone}})
+                .then(() =>{
+                    console.log("Commande supprimée avec succès!")
+                    res.render("admin/index", {title: "administrateur"})
+                })
+                .catch(error=>{
+                    console.error("Erreur lors de la suppression de la commande: " + error)
+                    res.send("Erreur lors de la suppression de la commande")
+                }) 
+        .then(() =>{
+            console.log("Commande supprimée avec succès!")
+        })
+        .catch(error=>{
+            console.error("Erreur lors de la suppression de la commande: " + error)
+            res.send("Erreur lors de la suppression de la commande")
+        }) 
+    } catch (error) {
+        console.error('Erreur lors de l\'envoi de l\'e-mail:', error.response.body);
+        res.send('Erreur lors de l\'envoi de la confirmation par e-mail.');
+    }
+});
 
 
 module.exports = router

@@ -3,7 +3,7 @@ const {Sequelize, DataTypes} = require("sequelize");
 
 
 const sequelize = new Sequelize(
-    "bdd resto",
+    "restaurant",
     "root",
     "",
     {
@@ -49,6 +49,11 @@ const User = sequelize.define('Utilisateur', {
     motDePasse:{
         type: DataTypes.STRING,
         allowNull: false
+    },
+    telephone:{
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true
     }
 })
 

@@ -288,6 +288,7 @@ nav{
     color: white;
 }
 
+
 .card_commande{
     display: flex;
     flex-wrap: wrap;
@@ -303,6 +304,7 @@ nav{
     box-shadow: 0 4px 18px rgba(0, 0, 0, 0.2);
     background-color: brown;
     cursor: pointer;
+    width: 300px;
 }
 .card h2 {
     margin-top: 0;

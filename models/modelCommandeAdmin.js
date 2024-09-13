@@ -3,7 +3,7 @@ const {Sequelize, DataTypes} = require("sequelize");
 
 
 const sequelize = new Sequelize(
-    "bdd resto",
+    "restaurant",
     "root",
     "",
     {
@@ -44,6 +44,10 @@ const CommandeAdmin = sequelize.define('CommandeAdmin', {
     email:{
         type: DataTypes.STRING,
         allowNull: false
+    },
+    telephone:{
+        type: DataTypes.STRING,
+        allowNull: false,
     },
     menu:{
         type: DataTypes.STRING,

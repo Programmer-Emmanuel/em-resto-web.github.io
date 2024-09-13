@@ -43,12 +43,16 @@
                     <h2>Nom : <%= commande.nom %></h2><br><hr><br>
                     <h2>Prenom : <%= commande.prenom %></h2><br><hr><br>
                     <h2>Email : <%= commande.email %></h2><br><hr><br>
+                    <h2>Telephone : <%= commande.telephone %></h2><br><hr><br>
                     <h2>Menu : <%= commande.menu %></h2><br><hr><br>
                     <h2>Prix : <%= commande.prix %></h2><br><hr><br>
                     <h2>Date : <%= commande.createdAt %></h2><br>
                     <form action="/resto/panier" method="post">
                         <input type="hidden" name="menu" value="<%= commande.menu %>">
                         <input type="hidden" name="prix" value="<%= commande.prix %>">
+                        <input type="hidden" name="telephone" value="<%= commande.telephone %>">
+                        <input type="hidden" name="email" value="<%= commande.email %>">
+
                         <input type="submit" value="Valider">
                     </form>
                 </div>

@@ -71,7 +71,11 @@
     <% var useremail= typeof
     email !== 'undefined' ?
     email: '';  
-  %>
+    %>
+    <% var usertelephone= typeof
+    tel !== 'undefined' ?
+    tel: '';  
+    %>
 
     <div class="card_specialites">
 
@@ -90,6 +94,7 @@
                 <input type="hidden" name="nom" value="<%= username %>" >
                 <input type="hidden" name="prenom" value="<%= userlastname %>" >
                 <input type="hidden" name="email" value="<%= useremail %>" >
+                <input type="hidden" name="telephone" value="<%= usertelephone %>" >
                 <input type="hidden" name="menu" value="Pizza">
                 <input type="hidden" name="prix" value="5000F">
                 <input type="submit" value="Commander">
@@ -115,6 +120,7 @@
                 <input type="hidden" name="nom" value="<%= username %>" >
                 <input type="hidden" name="prenom" value="<%= userlastname %>" >
                 <input type="hidden" name="email" value="<%= useremail %>" >
+                <input type="hidden" name="telephone" value="<%= usertelephone %>" >
                 <input type="hidden" name="menu" value="Burger">
                 <input type="hidden" name="prix" value="5000F">
                 <input type="submit" value="Commander">
@@ -139,6 +145,7 @@
                 <input type="hidden" name="nom" value="<%= username %>" >
                 <input type="hidden" name="prenom" value="<%= userlastname %>" >
                 <input type="hidden" name="email" value="<%= useremail %>" >
+                <input type="hidden" name="telephone" value="<%= usertelephone %>" >
                 <input type="hidden" name="menu" value="Takkos">
                 <input type="hidden" name="prix" value="2000F">
                 <input type="submit" value="Commander">
@@ -163,6 +170,7 @@
                 <input type="hidden" name="nom" value="<%= username %>" >
                 <input type="hidden" name="prenom" value="<%= userlastname %>" >
                 <input type="hidden" name="email" value="<%= useremail %>" >
+                <input type="hidden" name="telephone" value="<%= usertelephone %>" >
                 <input type="hidden" name="menu" value="Alloco">
                 <input type="hidden" name="prix" value="1000F">
                 <input type="submit" value="Commander">
@@ -187,6 +195,7 @@
                 <input type="hidden" name="nom" value="<%= username %>" >
                 <input type="hidden" name="prenom" value="<%= userlastname %>" >
                 <input type="hidden" name="email" value="<%= useremail %>" >
+                <input type="hidden" name="telephone" value="<%= usertelephone %>" >
                 <input type="hidden" name="menu" value="Poulet">
                 <input type="hidden" name="prix" value="10.000F">
                 <input type="submit" value="Commander">
@@ -196,7 +205,9 @@
 
     </div>
 
-    
+    <footer>
+      <p>Built and Designed by <a href="https://www.linkedin.com/in/emmanuel-bamidele-b63a49274/">Emmanuel Bamidélé</a></p>
+    </footer>
     
     
 
