@@ -84,7 +84,6 @@ app.use((req, res, next)=>{
     <div class="container">
         <h1>404</h1>
         <p>Oups ! La page que vous cherchez n'existe pas.</p>
-        <p>Vous pouvez retourner à la <a href="./">page d'accueil</a>.</p>
     </div>
 </body>
 </html>

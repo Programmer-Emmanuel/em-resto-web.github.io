@@ -4,15 +4,18 @@ const Admin = require('../models/modelAdmin')
 const Commande = require('../models/modelCommande')
 const CommandeAdmin = require('../models/modelCommandeAdmin')
 const path = require("path")
+const sgMail = require('@sendgrid/mail'); //sendgrid
+require('dotenv').config(); // Assurez-vous que 'dotenv' est installé
 const router = express.Router()
-const sgMail = require('../sendgrid');
+const bcrypt = require('bcrypt');
 const { log } = require('console')
 
-
+//sendgrid key
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 //PAGE D'ACCEUIL
 router.get('/', (req, res) => {
-    res.render('acceuil/index', {title: 'Acceuil'})
+    res.render('acceuil/index', {title: 'Acceuil'})  
 })
 
 
@@ -27,6 +30,8 @@ router.post("/resto/connexion", (req,res)=>{
     //les coordonnées rentrées
     const inputEmail = req.body.email
     const inputPassword = req.body.password
+
+    
 
     //pour verifier si ça appartient à la table User
     const user = User.findOne({where:{
@@ -56,7 +61,7 @@ router.post("/resto/connexion", (req,res)=>{
             motDePasse: inputPassword
         }})
             .then(admin=>{
-                if(admin && inputPassword!="admin2024_xx"){
+                if(admin && inputPassword!="admin"){
                     console.log("Utilisteur trouvé dans la table Admin!");
                     res.render("adminAjoutAdmin/index", {title: "administrateur"})
                 }
@@ -108,9 +113,11 @@ router.post("/resto", (req, res)=>{
     const inputPassword = req.body.password
     var inputTelephone = req.body.telephone;
 
+    
+
 
     //verifie en fonction du mot de passe si c'est un administrateur en fonction du mot de passe
-    const motdepasse = "admin2024_xx";
+    const motdepasse = "admin";
 
     if(inputPassword == motdepasse){
         res.render("admin/index", {title: "administrateur"})
@@ -273,7 +280,8 @@ const newCommande = CommandeAdmin.build({
     newCommande.save()
         .then(()=>{
             console.log("Commande réussi !");
-            res.render("clt/index", {title: "client"})
+            res.render("clt/index", {title: "client", name: inputNom, lastName: inputPrenom, email: inputEmail,tel: inputTelephone})
+
         })
         .catch(error=>{
             console.error("Erreur lors de l'enregistrement de la commande: " + error);
@@ -364,14 +372,13 @@ router.post("/admin", (req, res)=>{
 
 //Envoi et reception d’email
 
+
 // Route pour traiter le formulaire de panier
 router.post('/resto/panier', async (req, res) => {
     const { menu, prix, telephone, email } = req.body;
-
-    // Création du message à envoyer
     const msg = {
-        to: email,  // L'adresse e-mail du destinataire (le client)
-        from: 'emresto.dev@gmail.com', 
+        to: email,
+        from: 'emresto.dev@gmail.com',
         subject: 'Confirmation de votre commande',
         text: `Bonjour,
 
@@ -384,43 +391,74 @@ router.post('/resto/panier', async (req, res) => {
 
         Cordialement,
         Votre équipe`,
-        html: `<p>Bonjour,</p>
-               <p>Merci pour votre commande !</p>
-               <p><strong>Menu:</strong> ${menu}</p>
-               <p><strong>Prix:</strong> ${prix}</p>
-               <p><strong>Téléphone:</strong> ${telephone}</p>
-               <p>Nous vous contacterons bientôt pour plus de détails.</p>
-               <p>Cordialement,<br>Votre équipe</p>`
+        html: `<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #4CAF50;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        p {
+            line-height: 1.6;
+            margin-bottom: 10px;
+            color: black;
+        }
+        .highlight {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Confirmation de votre commande</h1>
+        <p>Bonjour,</p>
+        <p>Merci pour votre commande !</p>
+        <p><span class="highlight">Menu:</span> ${menu}</p>
+        <p><span class="highlight">Prix:</span> ${prix}</p>
+        <p><span class="highlight">Téléphone:</span> ${telephone}</p>
+        <p>Nous vous contacterons bientôt pour plus de détails.</p>
+        <p class="footer">Cordialement,<br>Votre resto, <br> EM-RESTO</p>
+    </div>
+</body>
+</html>
+`
     };
 
     try {
-        // Envoi de l'e-mail
         await sgMail.send(msg);
         console.log('E-mail envoyé avec succès !');
 
-        const emailCommande = req.body.email
-        const telephone = req.body.telephone
-        
-        
+        await CommandeAdmin.destroy({ where: { email, telephone, menu } });
+        console.log("Commande supprimée avec succès!");
 
-        const commandeSupp = CommandeAdmin.destroy({where: {email: emailCommande, telephone: telephone}})
-                .then(() =>{
-                    console.log("Commande supprimée avec succès!")
-                    res.render("admin/index", {title: "administrateur"})
-                })
-                .catch(error=>{
-                    console.error("Erreur lors de la suppression de la commande: " + error)
-                    res.send("Erreur lors de la suppression de la commande")
-                }) 
-        .then(() =>{
-            console.log("Commande supprimée avec succès!")
-        })
-        .catch(error=>{
-            console.error("Erreur lors de la suppression de la commande: " + error)
-            res.send("Erreur lors de la suppression de la commande")
-        }) 
+        res.render("admin/index", { title: "administrateur" });
     } catch (error) {
-        console.error('Erreur lors de l\'envoi de l\'e-mail:', error.response.body);
+        console.error('Erreur lors de l\'envoi de l\'e-mail:', error.response ? error.response.body : error);
         res.send('Erreur lors de l\'envoi de la confirmation par e-mail.');
     }
 });

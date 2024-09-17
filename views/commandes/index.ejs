@@ -47,7 +47,8 @@
                     <h2>Menu : <%= commande.menu %></h2><br><hr><br>
                     <h2>Prix : <%= commande.prix %></h2><br><hr><br>
                     <h2>Date : <%= commande.createdAt %></h2><br>
-                    <form action="/resto/panier" method="post">
+                    <form action="/resto/panier" action="https://api.web3forms.com/submit" method="post">
+                        <input type="hidden" name="access_key" value="0b811f26-8555-4101-aae2-65787e01e78b">
                         <input type="hidden" name="menu" value="<%= commande.menu %>">
                         <input type="hidden" name="prix" value="<%= commande.prix %>">
                         <input type="hidden" name="telephone" value="<%= commande.telephone %>">
