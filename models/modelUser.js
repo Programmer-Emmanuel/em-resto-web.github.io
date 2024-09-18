@@ -3,9 +3,9 @@ const {Sequelize, DataTypes} = require("sequelize");
 
 
 const sequelize = new Sequelize(
-    "restaurant",
-    "root",
-    "",
+    "restaurant",//nom de la base de données
+    "root", //nom de l’utilisateur
+    "", //mot de passe de la base de données
     {
         host: 'localhost',
         dialect: "mariadb",
@@ -15,7 +15,7 @@ const sequelize = new Sequelize(
         logging: false
     }
 )
-
+//pour vérifier la connexion à la base de données
 sequelize.authenticate()
     .then(_=> console.log("La connexion à la base de donnée a été établie !"))
     .catch(error=> console.error("Connexion échoué: " + error))
@@ -26,7 +26,7 @@ sequelize.authenticate()
 
 
 
-
+ //Création de la table utilsateur
 const User = sequelize.define('Utilisateur', {
     id:{
         type: DataTypes.INTEGER,
@@ -57,6 +57,7 @@ const User = sequelize.define('Utilisateur', {
     }
 })
 
+//pour vérifier la  création de la table
 sequelize.sync({force: true})
     .then(()=>{
         console.log("La table User a été créée!")
@@ -64,8 +65,6 @@ sequelize.sync({force: true})
     .catch(error=>{
         console.error("Erreur lors de la création de la table: " + error)
     })
-
-
 
 
 

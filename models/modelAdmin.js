@@ -3,11 +3,11 @@ const {Sequelize, DataTypes} = require("sequelize");
 
 
 const sequelize = new Sequelize(
-    "restaurant",
-    "root",
-    "",
+    "restaurant", //nom de la base de données
+    "root", //nom de l’utilisateur
+    "", //mot de passe de la base de données
     {
-        host: 'localhost',
+        host: 'localhost', 
         dialect: "mariadb",
         dialectOptions: {
             timezone: "Etc/GMT-2"
@@ -16,10 +16,12 @@ const sequelize = new Sequelize(
     }
 )
 
+//pour vérifier la connexion à la base de données
 sequelize.authenticate()
     .then(_=> console.log("La connexion à la base de donnée a été établie !"))
     .catch(error=> console.error("Connexion échoué: " + error))
 
+    //Créatiion de la table Administrateur
     const Admin = sequelize.define('Administrateur', {
         id:{
             type: DataTypes.INTEGER,
@@ -45,7 +47,7 @@ sequelize.authenticate()
             unique: true
         }
     })
-    
+    //pour vérifier la  création de la table
     sequelize.sync({force: true})
         .then(()=>{
             console.log("La table Admin a été créée!")
