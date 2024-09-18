@@ -257,6 +257,7 @@ router.get("/admin/commandes", async(req, res)=>{
 })
 
 
+//Route pour envoyer les commandes chez l’administrateur
 router.get("/client/commandes", (req, res)=>{
         
     inputNom = req.query.nom
@@ -347,6 +348,7 @@ router.get("/admin/supp", (req, res)=>{
 })
 
 
+//Route pour supprimer un administrateur
 router.post("/admin", (req, res)=>{
 
 
@@ -371,7 +373,6 @@ router.post("/admin", (req, res)=>{
 
 
 //Envoi et reception d’email
-
 
 // Route pour traiter le formulaire de panier
 router.post('/resto/panier', async (req, res) => {
