@@ -15,16 +15,6 @@
             <img src="/commandes/images/menu (1).png" alt="" id="menu_burger">
             <img src="/commandes/images/close (1).png" alt="" id="close_menu">
         </div>
-        <div class="navbar">
-            <ul>
-                <li><a href="#">Les Commandes</a></li>
-            </ul>
-        </div>
-        <div class="navbar_responsive" id="responsive">
-            <ul>
-                <li><a href="#">Les Commandes</a></li>
-            </ul>
-        </div>
     </nav>
     
     <div class="titre_panier">
@@ -36,37 +26,48 @@
         
 
         <% if (commandeAdmin.length > 0) { %>
-        <% 
-            commandeAdmin.forEach(commande => { %>
-                
-                <div class="card" >
-                    <h2>Nom : <%= commande.nom %></h2><br><hr><br>
-                    <h2>Prenom : <%= commande.prenom %></h2><br><hr><br>
-                    <h2>Email : <%= commande.email %></h2><br><hr><br>
-                    <h2>Telephone : <%= commande.telephone %></h2><br><hr><br>
-                    <h2>Menu : <%= commande.menu %></h2><br><hr><br>
-                    <h2>Prix : <%= commande.prix %></h2><br><hr><br>
-                    <h2>Date : <%= commande.createdAt %></h2><br>
-                    <form action="/resto/panier" action="https://api.web3forms.com/submit" method="post">
-                        <input type="hidden" name="access_key" value="0b811f26-8555-4101-aae2-65787e01e78b">
-                        <input type="hidden" name="menu" value="<%= commande.menu %>">
-                        <input type="hidden" name="prix" value="<%= commande.prix %>">
-                        <input type="hidden" name="telephone" value="<%= commande.telephone %>">
-                        <input type="hidden" name="email" value="<%= commande.email %>">
-
-                        <input type="submit" value="Valider">
-                    </form>
-                </div>
-
-
-        <%    }) %>
-        <% } %>
-
-        <% if (commandeAdmin.length === 0) { %>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Prénom</th>
+                        <th>Email</th>
+                        <th>Téléphone</th>
+                        <th>Menu</th>
+                        <th>Prix</th>
+                        <th>Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% commandeAdmin.forEach(commande => { %>
+                        <tr>
+                            <td><%= commande.nom %></td>
+                            <td><%= commande.prenom %></td>
+                            <td><%= commande.email %></td>
+                            <td><%= commande.telephone %></td>
+                            <td><%= commande.menu %></td>
+                            <td><%= commande.prix %></td>
+                            <td><%= commande.createAt %></td>
+                            <td>
+                                <form action="/resto/panier" method="post" style="display:inline;">
+                                    <input type="hidden" name="access_key" value="0b811f26-8555-4101-aae2-65787e01e78b">
+                                    <input type="hidden" name="menu" value="<%= commande.menu %>">
+                                    <input type="hidden" name="prix" value="<%= commande.prix %>">
+                                    <input type="hidden" name="telephone" value="<%= commande.telephone %>">
+                                    <input type="hidden" name="email" value="<%= commande.email %>">
+                                    <input type="submit" value="Valider">
+                                </form>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        <% } else { %>
             <h2 class="vide">Aucune commande n'a été effectuée.</h2>
         <% } %>
 
-    </div>
+        </div>
 
 
     <script src="/panier/script.js"></script>

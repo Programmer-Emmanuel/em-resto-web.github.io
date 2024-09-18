@@ -57,6 +57,10 @@ const CommandeAdmin = sequelize.define('CommandeAdmin', {
     prix:{
         type: DataTypes.STRING,
         allowNull: false
+    },
+    createAt:{
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW
     }
 })
 

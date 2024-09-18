@@ -1,9 +1,11 @@
 const express = require('express')
+const moment = require('moment');
 const User = require('../models/modelUser')
 const Admin = require('../models/modelAdmin')
 const Commande = require('../models/modelCommande')
 const CommandeAdmin = require('../models/modelCommandeAdmin')
 const path = require("path")
+
 const sgMail = require('@sendgrid/mail'); //sendgrid
 require('dotenv').config(); // Assurez-vous que 'dotenv' est installé
 const router = express.Router()
@@ -183,6 +185,7 @@ router.get("/resto", (req, res)=>{
     const telephoneUser = inputTelephone
     res.render("clt/index", {title: "client", name: nameUser, lastName: lastNameUser, email: emailUser,tel: telephoneUser})
 
+    
 
     const newCommande = Commande.build({
         nom: inputNom,
@@ -191,6 +194,7 @@ router.get("/resto", (req, res)=>{
         telephone: inputTelephone,
         menu: inputMenu,
         prix: inputPrix
+
     })
     newCommande.save()
         .then(()=>{ 
@@ -200,7 +204,7 @@ router.get("/resto", (req, res)=>{
             console.error("Erreur lors de l'enregistrement de la commande: " + error);
             res.render("clt/index", {title: "client"})
         })
-    
+
  
 
 
@@ -239,24 +243,6 @@ router.get("/resto/panier", async(req, res)=>{
 })
 
 
-
-
-//PAGE DES COMMANDES RECUES 
-router.get("/admin/commandes", async(req, res)=>{
-    try{
-        const commandeAdmin = await CommandeAdmin.findAll()
-        res.render('commandes/index', {title: 'CommandeAdmin', commandeAdmin: commandeAdmin})
-        console.log("Commandes récupérées avec succès!")
-        
-    }
-    catch(error){
-        console.error("Erreur lors de la récupération des commandes: " + error)
-        res.send("Erreur lors de la récupération des commandes")
-    }
-
-})
-
-
 //Route pour envoyer les commandes chez l’administrateur
 router.get("/client/commandes", (req, res)=>{
         
@@ -276,10 +262,12 @@ const newCommande = CommandeAdmin.build({
         email: inputEmail,
         telephone: inputTelephone,
         menu: inputMenu,
-        prix: inputPrix
+        prix: inputPrix,
+        createAt: moment().format('YYYY-MM-DD HH:mm:ss')
     })
     newCommande.save()
         .then(()=>{
+
             console.log("Commande réussi !");
             res.render("clt/index", {title: "client", name: inputNom, lastName: inputPrenom, email: inputEmail,tel: inputTelephone})
 
@@ -303,6 +291,32 @@ const newCommande = CommandeAdmin.build({
                 }) 
 
 })
+
+
+
+
+//PAGE DES COMMANDES RECUES 
+router.get("/admin/commandes", async(req, res)=>{
+    try{
+        const commandeAdmin = await CommandeAdmin.findAll()
+
+  
+
+
+
+        res.render('commandes/index', {title: 'CommandeAdmin', commandeAdmin: commandeAdmin})
+        console.log("Commandes récupérées avec succès!")
+        
+    }
+    catch(error){
+        console.error("Erreur lors de la récupération des commandes: " + error)
+        res.send("Erreur lors de la récupération des commandes")
+    }
+
+})
+
+
+
 
 
 //AJOUTER UN ADMINISTRATEUR
@@ -454,7 +468,7 @@ router.post('/resto/panier', async (req, res) => {
         await sgMail.send(msg);
         console.log('E-mail envoyé avec succès !');
 
-        await CommandeAdmin.destroy({ where: { email, telephone, menu } });
+        await CommandeAdmin.destroy({ where: { email, telephone, menu, createdAt } });
         console.log("Commande supprimée avec succès!");
 
         res.render("admin/index", { title: "administrateur" });
