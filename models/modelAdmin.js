@@ -48,7 +48,7 @@ sequelize.authenticate()
         }
     })
     //pour vérifier la  création de la table
-    sequelize.sync({force: true})
+    sequelize.sync({force: false})
         .then(()=>{
             console.log("La table Admin a été créée!")
         })

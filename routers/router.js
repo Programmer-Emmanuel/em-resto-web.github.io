@@ -281,14 +281,7 @@ const newCommande = CommandeAdmin.build({
         const menuCommande = req.query.menu
         
 
-        const commandeSupp = Commande.destroy({where: {menu: menuCommande}})
-                .then(() =>{
-                    console.log("Commande supprimée avec succès!")
-                })
-                .catch(error=>{
-                    console.error("Erreur lors de la suppression de la commande: " + error)
-                    res.send("Erreur lors de la suppression de la commande")
-                }) 
+
 
 })
 
@@ -299,12 +292,22 @@ const newCommande = CommandeAdmin.build({
 router.get("/admin/commandes", async(req, res)=>{
     try{
         const commandeAdmin = await CommandeAdmin.findAll()
+        
+        const editingCommand = commandeAdmin.map(command => {
+            return {
+                ...command.dataValues,
+                createdAt: moment(command.dataValues.createdAt).format('DD-MM-YYYY'),
+            }
+        })
 
-  
+        console.log(commandeAdmin);
+        
+
+            // commandeAdmin.forEach(command => console.log(command.dataValues)
+            // )
 
 
-
-        res.render('commandes/index', {title: 'CommandeAdmin', commandeAdmin: commandeAdmin})
+        res.render('commandes/index', {title: 'CommandeAdmin', commandeAdmin: editingCommand})
         console.log("Commandes récupérées avec succès!")
         
     }
@@ -468,8 +471,7 @@ router.post('/resto/panier', async (req, res) => {
         await sgMail.send(msg);
         console.log('E-mail envoyé avec succès !');
 
-        await CommandeAdmin.destroy({ where: { email, telephone, menu, createdAt } });
-        console.log("Commande supprimée avec succès!");
+
 
         res.render("admin/index", { title: "administrateur" });
     } catch (error) {

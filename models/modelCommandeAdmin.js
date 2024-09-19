@@ -65,7 +65,7 @@ const CommandeAdmin = sequelize.define('CommandeAdmin', {
 })
 
 //pour vérifier la  création de la table
-sequelize.sync({force: true})
+sequelize.sync({force: false}) 
     .then(()=>{
         console.log("La table CommandeAdmin a été créée!")
     })

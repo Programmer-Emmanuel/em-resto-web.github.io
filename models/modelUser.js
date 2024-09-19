@@ -58,7 +58,7 @@ const User = sequelize.define('Utilisateur', {
 })
 
 //pour vérifier la  création de la table
-sequelize.sync({force: true})
+sequelize.sync({force: false})  
     .then(()=>{
         console.log("La table User a été créée!")
     })
